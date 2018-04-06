@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import '../styles/player_bar.css';
+
 
 class PlayerBar extends Component {
   render() {
@@ -19,7 +21,7 @@ class PlayerBar extends Component {
           <div className="current-time">{this.props.formatTime(this.props.currentTime)}</div>
           <input
             type="range"
-            className="seek-bar"
+            className="seek-bar mdl-slider mdl-js-slider"
             value={(this.props.currentTime / this.props.duration) || 0 }
             max="1"
             min="0"
@@ -32,7 +34,7 @@ class PlayerBar extends Component {
           <div className="icon ion-volume-low"></div>
           <input
             type="range"
-            className="seek-bar"
+            className="seek-bar mdl-slider mdl-js-slider"
             value={this.props.volume}
             max="1"
             min="0"

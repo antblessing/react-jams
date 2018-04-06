@@ -1,0 +1,19 @@
+.library {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  background: #007991;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #78ffd6, #007991);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #78ffd6, #007991); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  height: 100%;
+}
+
+.album-cover {
+  width: 200px;
+  height: 200px;
+  border: 1px solid black;
+}
+
+.albums {
+  margin: 20px;
+}

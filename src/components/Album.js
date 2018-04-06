@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import albumData from './../data/albums';
 import PlayerBar from './PlayerBar';
+import '../styles/album.css';
+
 
 class Album extends Component {
   constructor(props) {
@@ -84,7 +86,10 @@ class Album extends Component {
 
   handleNextClick() {
     const currentIndex = this.state.album.songs.findIndex(song => this.state.currentSong === song);
-    const newIndex = Math.max(0,currentIndex+1);
+    let newIndex = Math.max(0,currentIndex+1);
+    if (newIndex > this.state.album.songs.length-1) {
+      newIndex = 0;
+    }
     const newSong = this.state.album.songs[newIndex];
 
     this.setSong(newSong);
@@ -121,49 +126,61 @@ class Album extends Component {
         <section id="album-info">
           <img id="album-cover-art" src={this.state.album.albumCover} alt="Album cover"/>
           <div className="album-details">
-            <h1 id="album-title">{this.state.album.title}</h1>
-            <h2 className="artist">{this.state.album.artist}</h2>
+            <h5 id="album-title">{this.state.album.title}</h5>
+            <h5 className="artist">{this.state.album.artist}</h5>
             <div id="release-info">{this.state.album.releaseInfo}</div>
           </div>
         </section>
-        <table id="song-list">
-          <colgroup>
-            <col id="song-number-column" />
-            <col id="song-title-column" />
-            <col id="song-duration-column" />
-          </colgroup>
-          <tbody>
-          {
-            this.state.album.songs.map((song,index) =>
-              <tr className="song" key={index} onClick={() => this.handleSongClick(song)} >
-                <td className="song-actions">
-                  <button>
-                    <span className="song-number">{index+1}</span>
-                    <span className="ion-play"></span>
-                    <span className="ion-pause"></span>
-                  </button>
-                </td>
-                <td className="song-title">{song.title}</td>
-                <td className="song-duration">{this.formatTime(parseInt(song.duration))}</td>
+        <div className="track-player-container">
+          <table id="song-list" className="mdl-data-table mdl-js-data-table  mdl-shadow--2dp">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Track</th>
+                <th>Name</th>
+                <th>Duration</th>
               </tr>
-            )
-          }
-          </tbody>
-        </table>
-        <PlayerBar
-        isPlaying={this.state.isPlaying}
-        currentSong={this.state.currentSong}
-        currentTime={this.state.currentTime}
-        duration={this.state.duration}
-        volume={this.state.volume}
-        handleSongClick={() => this.handleSongClick(this.state.currentSong)}
-        handlePrevClick={() => this.handlePrevClick()}
-        handleNextClick={() => this.handleNextClick()}
-        handleTimeChange={(e) => this.handleTimeChange(e)}
-        handleVolumeChange={(e) => this.handleVolumeChange(e)}
-        formatTime={(time) => this.formatTime(time)}
-        />
+            </thead>
+            <tbody>
+            {
+              this.state.album.songs.map((song,index) =>
+                <tr className="song" key={index} onClick={() => this.handleSongClick(song)} >
+                  {
+                    this.state.isPlaying && this.state.currentSong === song ?
+                    (
+                      <td className="ion-pause"></td>
+                    )
+                      :
+                    (
+                      <td className="ion-play"></td>
+                    )
+                  }
+                  <td className="song-actions">
+                    <span className="song-number">{index+1}</span>
+                  </td>
+                  <td className="song-title">{song.title}</td>
+                  <td className="song-duration">{this.formatTime(parseInt(song.duration))}</td>
+                </tr>
+              )
+            }
+            </tbody>
+          </table>
+          <PlayerBar
+          isPlaying={this.state.isPlaying}
+          currentSong={this.state.currentSong}
+          currentTime={this.state.currentTime}
+          duration={this.state.duration}
+          volume={this.state.volume}
+          handleSongClick={() => this.handleSongClick(this.state.currentSong)}
+          handlePrevClick={() => this.handlePrevClick()}
+          handleNextClick={() => this.handleNextClick()}
+          handleTimeChange={(e) => this.handleTimeChange(e)}
+          handleVolumeChange={(e) => this.handleVolumeChange(e)}
+          formatTime={(time) => this.formatTime(time)}
+          />
+        </div>
       </section>
+
     );
   }
 }
